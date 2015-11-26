@@ -1,4 +1,4 @@
-#dasseclab.github.io/Coursera#
+#github.com/dasseclab/Coursera#
 
 A place to put script and coursework for the class Python for Everybody via Coursera, presented by the University of Michigan. This repository is public-facing for my own convenience and perhaps to the amusement of anyone who stubles across it.
 

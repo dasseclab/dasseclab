@@ -44,7 +44,19 @@ def secure_ssd_erase():
             subprocess.call(['sudo hdparm --user-master u --security-erase QWERTYdrowssap!' drive])
 def disk_wipe():
     """Module for doing a repeat of overwriting data."""
-
+    for drive in hdd
+        do "dd if=/dev/urandom of=$drive bs=512"
+            print("Starting pass 1 of 3 of data wipe")
+            if #errors, print to log & stop
+            elif continue
+        do "dd if=/dev/urandom of=$drive bs=512"
+            print("Starting pass 2 of 3 of data wipe")
+            if  # errors, print to log & stop
+            elif continue
+        do "dd if=/dev/urandom of=$drive bs=512"
+            print("Starting pass 3 of 3 of data wipe")
+            if  # errors, print to log & stop
+            elif continue
 def main():
     drive_list():
         print("Select a device to DKEY")
@@ -80,19 +92,6 @@ def main():
     print("HDDs continuing with dkey")
     disk_wipe():
     #Wipe data from sectors
-    for i in HDDs
-        do "dd if=/dev/urandom of=$i bs=512"
-            print("Starting pass 1 of 3 of data wipe")
-            if #errors, print to log & stop
-            elif continue
-        do "dd if=/dev/urandom of=$i bs=512"
-            print("Starting pass 2 of 3 of data wipe")
-            if  # errors, print to log & stop
-            elif continue
-        do "dd if=/dev/urandom of=$i bs=512"
-            print("Starting pass 3 of 3 of data wipe")
-            if  # errors, print to log & stop
-            elif continue
     for i in HDDs:
         if #errors == 0
         #complete script

@@ -65,6 +65,13 @@ def disk_wipe():
             print("Starting pass 3 of 3 of data wipe")
             if  # errors, print to log & stop
             elif continue
+def error_logging():
+    #if errors, write to /tmp/dkey.error
+    errors = subprocess.check_output(['wc', '-l', '/tmp/dkey.error'])
+        if errors.int() >= 0
+            print("There are errors with one or more drives during wipe. Check /tmp/dkey.error")
+        elif continue
+
 def main():
     drive_list():
         print("Select a device to DKEY")
@@ -100,12 +107,6 @@ def main():
     print("HDDs continuing with dkey")
     disk_wipe():
     #Wipe data from sectors
-    for i in HDDs:
-        if #errors == 0
-        #complete script
-            print("Data successfully destroyed")
-        elif #errors > 0
-            print("There are errors present and data destruction cannot be validated.")
 
 
 if __name__=='__main__':

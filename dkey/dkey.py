@@ -6,6 +6,8 @@ Distributed on GitHub at https://github.com/dasseclab/dkey"""
 import os
 import sys
 import subprocess
+import gnupg
+import python-gnupg
 import crypt
 
 def apply_crypto():
@@ -21,12 +23,18 @@ def drive_list():
     if sd >= 0
         return sd.split()
         else print("No SATA or SAS Devices")
+    session = hd
+    session.extend(sd)
 
 def ssd_list():
     """Build an array of any Solid State Drives present in system."""
     for drive in session:
         ssd = subprocess.check_output(['sudo', 'hdparm', '-I' drive '|', 'grep', '-i' 'Solid State Device'])
         return ssd.split()
+def hdd_list():
+    """Build an array of rotational Hard Disk Drives in system."""
+    for drive in session:
+        hdd = subprocess.check_output(['sudo', 'hdparm', '-I', drive '|', 'grep', '-i' 'Nominal Rotational Rate'])
         return hdd.split()
 
 def secure_ssd_erase():
@@ -67,7 +75,7 @@ def main():
         decision = raw_input()
         if decision == "Confirm":
             continue
-        elif decision == "Deny"
+        elif decision == "Deny":
             sys.exit(1)
         else print("Try again")
     elif device != (/dev/sda):

@@ -68,7 +68,7 @@ def disk_wipe():
 def error_logging():
     #if errors, write to /tmp/dkey.error
     errors = subprocess.check_output(['wc', '-l', '/tmp/dkey.error'])
-        if errors.int() >= 0
+        if errors.int() >= 1
             print("There are errors with one or more drives during wipe. Check /tmp/dkey.error")
         elif continue
 
@@ -87,7 +87,8 @@ def main():
         else print("Try again")
     elif device != (/dev/sda):
     ssd_list():
-    apply_cryto():
+    hdd_list():
+    apply_crypto():
         for drive in device
         print("Applying AES Cryptography To Device")
         #apply crypto phase1

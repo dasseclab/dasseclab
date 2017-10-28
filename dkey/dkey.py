@@ -3,16 +3,39 @@
 Written by Drew Sutton (@dasseclab; https://twitter.com/dasseclab)
 Distributed on GitHub at https://github.com/dasseclab/dkey"""
 
-import os
-import sys
+import random
+import string
 import subprocess
-import gnupg
-import python-gnupg
-import crypt
+import sys
+
+
+# noinspection PyUnreachableCode,PyUnreachableCode,PyUnreachableCode
+def keygen():
+    """Create keyfiles that will be used in the apply_crypto() method."""
+    generator = random.SystemRandom()
+    length = 32
+    alpha = string.ascii_letters + string.digits + string.punctuation
+    keyfile1 = str().join(generator.choice(alpha) for _ in range(length))
+    return keyfile1
+    subprocess.call(['cp', keyfile1,'/tmp'])
+    keyfile2 = str().join(generator.choice(alpha) for _ in range(length))
+    return keyfile2
+    subprocess.call(['cp', keyfile2, '/tmp'])
+    keyfile3 = str().join(generator.choice(alpha) for _ in range(length))
+    return keyfile3
+    subprocess.call(['cp', keyfile3, 'tmp'])
 
 def apply_crypto():
-    """Method to apply cryptography to selected drives. Crypto method works in three phases, each phase using a new algorithm: AES (DH), Serpent, & Threefish."""
+    """Method to apply cryptography to selected drives. Crypto method works in three phases, each phase using a new algorithm: AES, Twofish and Serpent."""
+    for drive in drive_list(session):
+        subprocess.call(['sudo', 'cryptsetup', '--cipher=aes-xts-plain64', '--offset=0', '--key-file=/tmp/keyfile1', '--key-size=256', 'open', '--type=plain', drive, 'enc'])
+            print("Applying Encryption Round 1")
+        subprocess.call(['sudo', 'cryptsetup', '--cipher=twofish-xts-plain64', '--offset=0', '--key-file=/tmp/keyfile1', '--key-size=256', 'open', '--type=plain', drive, 'enc'])
+            print("Applying Encryption Round 2")
+        subprocess.call(['sudo', 'cryptsetup', '--cipher=serpent-xts-plain64', '--offset=0', '--key-file=/tmp/keyfile1', '--key-size=256', 'open', '--type=plain', drive, 'enc'])
+            print("Applying Encryption Round 3")
 
+# noinspection PyUnreachableCode,PyUnreachableCode
 def drive_list():
     """Gather UNIX-like connected device information"""
     hd = subprocess.check_output(['ls', '/dev/hd*'])
@@ -25,90 +48,83 @@ def drive_list():
         else print("No SATA or SAS Devices")
     session = hd
     session.extend(sd)
+    return session
+
+def include_sda():
+    print('WARNING! dkey on this device will not complete unless dkey runs from another source! Include root drive?')
+    print("Confirm or Deny?")
+    decision = raw_input()
+    if decision == "Confirm":
+        continue
+    elif decision == "Deny":
+        sys.exit(1)
+    else:
+        print("Try again")
 
 def ssd_list():
     """Build an array of any Solid State Drives present in system."""
-    for drive in session:
+    for drive in drive_list(session):
         ssd = subprocess.check_output(['sudo', 'hdparm', '-I' drive '|', 'grep', '-i' 'Solid State Device'])
         return ssd.split()
 def hdd_list():
     """Build an array of rotational Hard Disk Drives in system."""
-    for drive in session:
+    for drive in drive_list(session):
         hdd = subprocess.check_output(['sudo', 'hdparm', '-I', drive '|', 'grep', '-i' 'Nominal Rotational Rate'])
         return hdd.split()
 
+
+# noinspection PyUnreachableCode,PyUnreachableCode
 def secure_ssd_erase():
     """Perform SSD Secure erase on each SSD in the session."""
         print("Performing secure erase on SSDs")
-        for drive in ssd:
+        for drive in ssd_list(ssd):
             subprocess.call(['sudo', 'hdparm', '-I' drive '|', 'grep', '-i', 'frozen'])
             if return == 'frozen':
                 subprocess.call(['sudo', 'hdparm', '-Y', drive])
-                return("Disconnect power to" drive)
+                print("Disconnect power to" drive)
                 sys.exit(1)
             if return == 'not frozen':
                 continue
-            subprocess.call(['sudo hdparm --user-master u --security-set-pass QWERTYdrowssap!' drive])
-            subprocess.call(['sudo hdparm --user-master u --security-erase QWERTYdrowssap!' drive])
+            subprocess.call(['sudo', 'hdparm', '--user-master', 'u', '--security-set-pass', 'QWERTYdrowssap!', drive])
+            subprocess.call(['sudo', 'hdparm', '--user-master', 'u', '--security-erase', 'QWERTYdrowssap!', drive])
+
 def disk_wipe():
     """Module for doing a repeat of overwriting data."""
-    for drive in hdd
-        do "dd if=/dev/urandom of=$drive bs=512"
+    for drive in hdd_list(hdd):
+        subprocess.call(['dd','if=/dev/urandom', 'of=', drive, 'bs=512'])
             print("Starting pass 1 of 3 of data wipe")
-            if #errors, print to log & stop
-            elif continue
-        do "dd if=/dev/urandom of=$drive bs=512"
+            #if #errors, print to log & stop
+            #elif continue
+        subprocess.call(['dd', 'if=/dev/urandom', 'of=', drive, 'bs=512'])
             print("Starting pass 2 of 3 of data wipe")
-            if  # errors, print to log & stop
-            elif continue
-        do "dd if=/dev/urandom of=$drive bs=512"
+            #if  # errors, print to log & stop
+            #elif continue
+        subprocess.call({'dd', 'if=/dev/urandom', 'of=', drive,, 'bs=512'})
             print("Starting pass 3 of 3 of data wipe")
-            if  # errors, print to log & stop
-            elif continue
-def error_logging():
+            #if  # errors, print to log & stop
+            #elif continue
+
+#def error_logging():
     #if errors, write to /tmp/dkey.error
-    errors = subprocess.check_output(['wc', '-l', '/tmp/dkey.error'])
-        if errors.int() >= 1
-            print("There are errors with one or more drives during wipe. Check /tmp/dkey.error")
-        elif continue
+    #errors = subprocess.check_output(['wc', '-l', '/tmp/dkey.error'])
+    #    if errors.int() >= 1
+    #       print("There are errors with one or more drives during wipe. Check /tmp/dkey.error")
+    #   elif continue
 
 def main():
-    drive_list():
-        print("Select a device to DKEY")
-        device = raw_input()
-    if device is '/dev/sda'
-        print("WARNING! dkey on this device will not complete unless dkey runs from another source!")
-        print("Confirm or Deny?")
-        decision = raw_input()
-        if decision == "Confirm":
-            continue
-        elif decision == "Deny":
-            sys.exit(1)
-        else print("Try again")
-    elif device != (/dev/sda):
-    ssd_list():
-    hdd_list():
-    apply_crypto():
-        for drive in device
-        print("Applying AES Cryptography To Device")
-        #apply crypto phase1
-        #generate key via /dev/urandom with method1 (AES-512)
-
-        for drive in device
-        print("Applying Serpent Cryptography To Device")
-        #apply crypto phase2
-        #generate key via /dev/urandom with method 2 (Serpent)
-
-        for drive in device
-        print("Applying Threefish Cryptography To Device")
-        #apply crypto phase3
-        #generate key via /dev/urandom with method 3 (Threefish)
-    secure_ssd_erase():
-        print("SSDs have completed secure erase")
+    drive_list()
+    include_sda()
+    ssd_list()
+    hdd_list()
+    keygen()
+    print("Keys Generated")
+    apply_crypto()
+    print("Drives Encrypted")
+    secure_ssd_erase()
+    print("SSDs have completed secure erase")
     print("HDDs continuing with dkey")
-    disk_wipe():
-    #Wipe data from sectors
-
+    disk_wipe()
+    print("Drive Wipe Stage Completed")
 
 if __name__=='__main__':
     main()

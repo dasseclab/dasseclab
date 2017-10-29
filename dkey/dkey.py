@@ -23,7 +23,7 @@ def keygen():
     subprocess.call(['cp', keyfile2, '/tmp'])
     keyfile3 = str().join(generator.choice(alpha) for _ in range(length))
     return keyfile3
-    subprocess.call(['cp', keyfile3, 'tmp'])
+    subprocess.call(['cp', keyfile3, '/tmp'])
 
 def apply_crypto():
     """Method to apply cryptography to selected drives. Crypto method works in three phases, each phase using a new algorithm: AES, Twofish and Serpent."""

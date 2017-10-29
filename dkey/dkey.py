@@ -29,21 +29,21 @@ def apply_crypto():
     """Method to apply cryptography to selected drives. Crypto method works in three phases, each phase using a new algorithm: AES, Twofish and Serpent."""
     for drive in drive_list(session):
         subprocess.call(['sudo', 'cryptsetup', '--cipher=aes-xts-plain64', '--offset=0', '--key-file=/tmp/keyfile1', '--key-size=256', 'open', '--type=plain', drive, 'enc'])
-            print("Applying Encryption Round 1")
-        subprocess.call(['sudo', 'cryptsetup', '--cipher=twofish-xts-plain64', '--offset=0', '--key-file=/tmp/keyfile1', '--key-size=256', 'open', '--type=plain', drive, 'enc'])
-            print("Applying Encryption Round 2")
-        subprocess.call(['sudo', 'cryptsetup', '--cipher=serpent-xts-plain64', '--offset=0', '--key-file=/tmp/keyfile1', '--key-size=256', 'open', '--type=plain', drive, 'enc'])
-            print("Applying Encryption Round 3")
+        print("Applying Encryption Round 1")
+        subprocess.call(['sudo', 'cryptsetup', '--cipher=twofish-xts-plain64', '--offset=0', '--key-file=/tmp/keyfile2', '--key-size=256', 'open', '--type=plain', drive, 'enc'])
+        print("Applying Encryption Round 2")
+        subprocess.call(['sudo', 'cryptsetup', '--cipher=serpent-xts-plain64', '--offset=0', '--key-file=/tmp/keyfile3', '--key-size=256', 'open', '--type=plain', drive, 'enc'])
+        print("Applying Encryption Round 3")
 
 # noinspection PyUnreachableCode,PyUnreachableCode
 def drive_list():
     """Gather UNIX-like connected device information"""
     hd = subprocess.check_output(['ls', '/dev/hd*'])
-    if hd >= 0
+    if hd >= 0:
         return hd.split()
         else print("No IDE or SCSI Devices")
     sd = subprocess.check_output(['ls', '/dev/sd*'])
-    if sd >= 0
+    if sd >= 0:
         return sd.split()
         else print("No SATA or SAS Devices")
     session = hd
@@ -99,7 +99,7 @@ def disk_wipe():
             print("Starting pass 2 of 3 of data wipe")
             #if  # errors, print to log & stop
             #elif continue
-        subprocess.call({'dd', 'if=/dev/urandom', 'of=', drive,, 'bs=512'})
+        subprocess.call({'dd', 'if=/dev/urandom', 'of=', drive, 'bs=512'})
             print("Starting pass 3 of 3 of data wipe")
             #if  # errors, print to log & stop
             #elif continue

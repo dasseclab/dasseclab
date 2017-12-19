@@ -6,7 +6,5 @@ Mail: dasseclab@protonmail.ch
 
 GPG: 63EE 8758 224C EE0D BD4A  9314 DFF1 EB70 661C FE8D
 
-Alt. Mail: dassec.mail@gmail.com
-
-Blog: dasseclab.wordpress.com
+Blog: https://dasseclab.net
 
